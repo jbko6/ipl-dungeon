@@ -92,6 +92,7 @@
 <div class="student-overlay"></div>
 {#if !loading}
     {#if completed}
+        <h1 class="path-title">Select your path</h1>
         <div class="doors">
             {#each room.subroomIds as subroomId (subroomId)}
                 <form method="POST" action="?/enterSubroom" use:enhance>
@@ -102,7 +103,7 @@
         </div>
     {:else}
         <div class="room">
-            <img src={personaToImage(room.persona)} alt="Student Avatar" class="avatar"  transition:fly|global={{ y: 500, duration: 800 }} />
+            <img src={personaToImage(room.persona)} alt="Student Avatar" class="avatar"  in:fly|global={{ y: 500, duration: 800 }} />
             <div class="msg" in:fade|global={{ duration: 500 }}>
                 <div class="name">{room.persona}</div>
                 {#key latestMessage}
@@ -111,7 +112,7 @@
             </div>
             <div class="interaction" in:fade|global={{ duration: 500, delay: 300 }}>
                 <form onsubmit={sendMessage} aria-busy={pending}>
-                    <input bind:this={inputElement} type="text" name="message" placeholder="Your input here" required disabled={pending} />
+                    <input bind:this={inputElement} type="text" name="message" placeholder="Your response" required disabled={pending} />
                     <button type="submit" disabled={pending}>Speak</button>
                 </form>
                 <div class="actions">
@@ -217,6 +218,13 @@
         font-family: 'New Rocker', cursive;
     }
 
+    .path-title {
+        position: absolute;
+        top: 10%;
+        font-family: 'New Rocker', cursive;
+        font-size: 2.5em;
+    }
+
     .doors {
         position: absolute;
         top: 50%;
@@ -227,10 +235,17 @@
     }
 
     .door {
-        width: 100px;
-        height: 150px;
-        background-color: var(--background-color-08);
+        width: 200px;
+        height: 350px;
+        background-color: var(--background-color);
+        box-shadow: 0px 0px 20px 0 var(--foreground-color-04) inset;
         border: var(--foreground-color-08) 2px solid;
         cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .door:hover {
+        scale: 1.1;
+        box-shadow: 0px 0px 20px 10px var(--foreground-color-08) inset;
     }
 </style>
