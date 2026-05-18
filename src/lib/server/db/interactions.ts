@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "./client";
+import { getDb } from "./client";
 import { interactions } from "./schema";
 import { AzureOpenAI } from "openai";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
@@ -25,13 +25,13 @@ const client =  new AzureOpenAI({
 const personas: Record<string, { prompt: string }> = parse(rawPersonas);
 
 export const createInteraction = async (data: typeof interactions.$inferInsert) =>
-    (await db.insert(interactions).values(data).returning())[0];
+    (await getDb().insert(interactions).values(data).returning())[0];
 
 export const getInteraction = async (id: string) =>
-    (await db.select().from(interactions).where(eq(interactions.id, id)))[0];
+    (await getDb().select().from(interactions).where(eq(interactions.id, id)))[0];
 
 export const getInteractionsByRoomId = async (roomId: string) =>
-    await db.select().from(interactions).where(eq(interactions.roomId, roomId));
+    await getDb().select().from(interactions).where(eq(interactions.roomId, roomId));
 
 export const addMessagesToInteraction = async (id: string, messages: typeof interactions.$inferSelect['messages']) => {
     const interaction = await getInteraction(id);
@@ -39,11 +39,11 @@ export const addMessagesToInteraction = async (id: string, messages: typeof inte
         throw new Error('Interaction not found');
     }
     const updatedMessages = [...interaction.messages, ...messages];
-    await db.update(interactions).set({ messages: updatedMessages }).where(eq(interactions.id, id));
+    await getDb().update(interactions).set({ messages: updatedMessages }).where(eq(interactions.id, id));
 }
 
 export const completeInteraction = async (id: string) => {
-    await db.update(interactions).set({ completed: 1 }).where(eq(interactions.id, id));
+    await getDb().update(interactions).set({ completed: 1 }).where(eq(interactions.id, id));
 }
 
 export const getOrStartInteraction = async (data: typeof interactions.$inferInsert, personaKey: string) => {

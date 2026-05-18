@@ -1,19 +1,19 @@
 import { eq } from "drizzle-orm";
-import { db } from "./client";
+import { getDb } from "./client";
 import { games, players } from "./schema";
 import { createRoom } from "./rooms";
 
-export const createGame = async (data: typeof games.$inferInsert) => await db.insert(games).values(data).returning();
+export const createGame = async (data: typeof games.$inferInsert) => await getDb().insert(games).values(data).returning();
 
-export const getGame = async (id: string) => (await db.select().from(games).where(eq(games.id, id)))[0];
+export const getGame = async (id: string) => (await getDb().select().from(games).where(eq(games.id, id)))[0];
 
-export const getActiveGame = async (id: string) => (await db.select().from(games).where(eq(games.id, id))).filter(g => g.active)[0];
+export const getActiveGame = async (id: string) => (await getDb().select().from(games).where(eq(games.id, id))).filter(g => g.active)[0];
 
-export const getGamePlayers = async (gameId: string) => await db.select().from(players).where(eq(players.gameId, gameId));
+export const getGamePlayers = async (gameId: string) => await getDb().select().from(players).where(eq(players.gameId, gameId));
 
-export const startGame = async (gameId: string, endTime: Date) => await db.update(games).set({ started: 1, endTime }).where(eq(games.id, gameId));
+export const startGame = async (gameId: string, endTime: Date) => await getDb().update(games).set({ started: 1, endTime }).where(eq(games.id, gameId));
 
-export const cancelGame = async (gameId: string) => await db.update(games).set({ active: 0 }).where(eq(games.id, gameId));
+export const cancelGame = async (gameId: string) => await getDb().update(games).set({ active: 0 }).where(eq(games.id, gameId));
 
 export const generateMap = async (gameId: string) => {
     const levels = Math.floor(Math.random() * 3) + 3;
@@ -46,5 +46,5 @@ export const generateMap = async (gameId: string) => {
             rooms[i].push((await createRoom({ gameId, subroomIds: subrooms, persona: personas[Math.floor(Math.random() * personas.length)], depth: i })).id);
         }
     }
-    await db.update(games).set({ surfaceRooms: rooms[0] }).where(eq(games.id, gameId));
+    await getDb().update(games).set({ surfaceRooms: rooms[0] }).where(eq(games.id, gameId));
 }
