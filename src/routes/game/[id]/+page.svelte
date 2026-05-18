@@ -48,7 +48,7 @@
             return async ({ result }) => {
                 if (result.type === 'success') {
                     if (result.data && result.data.playerId) {
-                        document.cookie += `; player-id=${result.data.playerId}; path=${page.url.pathname}`;
+                        document.cookie = `player-id=${result.data.playerId}; path=${page.url.pathname}`;
                         invalidateAll();
                     }
                 }
