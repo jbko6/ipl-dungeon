@@ -22,6 +22,7 @@ CREATE TABLE `interactions` (
 	`player_id` text NOT NULL,
 	`room_id` text NOT NULL,
 	`messages` text NOT NULL,
+	`completed` integer DEFAULT 0 NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
 	FOREIGN KEY (`game_id`) REFERENCES `games`(`id`) ON UPDATE no action ON DELETE no action,
@@ -47,6 +48,7 @@ CREATE TABLE `rooms` (
 	`player_ids` text DEFAULT '[]' NOT NULL,
 	`persona` text NOT NULL,
 	`discovered` integer DEFAULT 0 NOT NULL,
+	`depth` integer DEFAULT 0 NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
 	FOREIGN KEY (`game_id`) REFERENCES `games`(`id`) ON UPDATE no action ON DELETE no action

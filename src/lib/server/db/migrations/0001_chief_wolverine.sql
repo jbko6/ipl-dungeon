@@ -1,1 +1,0 @@
-ALTER TABLE `rooms` ADD `depth` integer DEFAULT 0 NOT NULL;
