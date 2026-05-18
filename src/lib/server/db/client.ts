@@ -1,4 +1,4 @@
-import { createClient } from "@libsql/client/http";
+import { createClient } from "@libsql/client/web";
 import { drizzle } from "drizzle-orm/libsql";
 import { DB_URL, AUTH_TOKEN } from "$env/static/private";
 
