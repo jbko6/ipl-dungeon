@@ -36,7 +36,7 @@ export const actions = {
             throw error(400, 'Name is required');
         }
         const player = await createPlayer({ gameId, name });
-        cookies.set('player-id', player.id, { path: request.destination, httpOnly: true, secure: true, sameSite: 'none', maxAge: 60 * 60 * 24 });
+        cookies.set('player-id', player.id, { path: `/game/${params.id}`, httpOnly: true, secure: true, sameSite: 'none', maxAge: 60 * 60 * 24 });
     },
     enterSubroom: async ({ params, cookies, request }) => {
         const gameId = params.id;
