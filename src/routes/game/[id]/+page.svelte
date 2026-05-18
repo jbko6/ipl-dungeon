@@ -48,7 +48,7 @@
             return async ({ result }) => {
                 if (result.type === 'success') {
                     if (result.data && result.data.playerId) {
-                        window.cookieStore.set('player-id', result.data.playerId as string);
+                        document.cookie += `; playerId=${result.data.playerId}; path=${page.url.pathname}`;
                         invalidateAll();
                     }
                 }
