@@ -36,7 +36,7 @@ export const actions = {
             throw error(400, 'Name is required');
         }
         const player = await createPlayer({ gameId, name });
-        cookies.set('player-id', player.id, { path: request.destination });
+        cookies.set('player-id', player.id, { path: request.destination, httpOnly: true, secure: true, sameSite: 'lax' });
     },
     enterSubroom: async ({ params, cookies, request }) => {
         const gameId = params.id;
