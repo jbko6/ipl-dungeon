@@ -1,0 +1,1 @@
+ALTER TABLE `interactions` ADD `completed` integer DEFAULT 0 NOT NULL;

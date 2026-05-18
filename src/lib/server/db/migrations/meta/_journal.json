@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1778910432731,
+      "tag": "0000_pink_princess_powerful",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1778912462772,
+      "tag": "0001_chief_wolverine",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779076923368,
+      "tag": "0002_yellow_lila_cheney",
+      "breakpoints": true
+    }
+  ]
+}
