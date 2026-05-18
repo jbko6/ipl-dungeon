@@ -41,6 +41,7 @@
     <h1>Admin</h1>
     {#if game && !game.started}
         <form method="POST" use:enhance>
+            <input type="hidden" name="_action" value="startGame" />
             <button formaction="?/startGame">Start Game</button>
         </form>
     {/if}
@@ -79,10 +80,12 @@
             </div>
         {/if}
         <form method="POST" class="cancel-game" use:enhance>
+            <input type="hidden" name="_action" value="cancelGame" />
             <button formaction="?/cancelGame">Cancel Game</button>
         </form>
     {:else}
         <form method="POST" action="?/createGame" use:enhance>
+        <input type="hidden" name="_action" value="createGame" />
             <button type="submit">Create Game</button>
         </form>
     {/if}
