@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import { invalidateAll } from "$app/navigation";
     import { page } from "$app/state";
 	import DungeonRoom from "./DungeonRoom.svelte";
 
@@ -43,7 +44,16 @@
         {/if}
     {:else}
         <h2 class="game-intro">You prepare to enter the dungeon...</h2>
-        <form method="POST" action="?/joinGame" use:enhance>
+        <form method="POST" action="?/joinGame" use:enhance={() => {
+            return async ({ result }) => {
+                if (result.type === 'success') {
+                    if (result.data && result.data.playerId) {
+                        window.cookieStore.set('player-id', result.data.playerId as string);
+                        invalidateAll();
+                    }
+                }
+            }
+        }}>
             <input type="text" name="name" placeholder="Your Name" required autofocus />
             <button type="submit">Enter</button>
         </form>
