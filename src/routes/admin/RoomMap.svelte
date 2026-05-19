@@ -32,23 +32,33 @@
     const calculateArrowX = (index: number, total: number) => `${((0.33 + index) / total) * 100}%`;
     const calculateY = (level: number) => level * 120;
 
+    const calculateTextX = (index: number, total: number) => `${((0.33 + index) / total) * 100 - 0.5}%`;
+
 
 </script>
 
-<svg width="100%" height="500px">
+<svg width="100%" height="600px">
     {#each Array.from(levels.entries()) as [level, rooms] (level)}
         {#each Object.entries(rooms) as [index, room] (room.id)}
-            <rect 
-                y={calculateY(level)} 
-                x={calculateX(Number(index), rooms.length)} 
-                width="100" 
-                height="50" 
-                fill={room.playerIds.length > 0 ? 'lightblue' : 'lightgray'} 
+            {#if room.end}
+                <circle 
+                    cy={calculateY(level)+25} 
+                    cx={calculateX(Number(index), rooms.length)} 
+                    r="25" 
+                    fill="red"
+                    stroke="black" 
+                />
+            {:else}
+            <circle 
+                cy={calculateY(level)+25} 
+                cx={calculateX(Number(index), rooms.length)} 
+                r="25" 
+                fill="white"
                 stroke="black" 
             />
-            <text y={calculateY(level) + 10} x={calculateX(Number(index), rooms.length)} font-size="12">{room.id}</text>
+            <text y={calculateY(level) + 30} x={calculateTextX(Number(index), rooms.length)} font-size="25">{room.playerIds.length}</text>
 
-            <g transform='translate(50, 0)'>
+            <g transform='translate(0, 0)'>
                 {#each room.subroomIds as subroomId (subroomId)}
                     {#if findRoomById(subroomId)}
                             <line 
@@ -56,11 +66,13 @@
                                 y1={calculateY(level) + 50} 
                                 x2={calculateArrowX(findRoomPosition(subroomId)!.index, findRoomPosition(subroomId)!.total)} 
                                 y2={calculateY(findRoomPosition(subroomId)!.level)} 
-                                stroke="black" 
+                                stroke="white"
+                                stroke-width="2" 
                             />
                     {/if}
                 {/each}
             </g>
+            {/if}
         {/each}
     {/each}
 </svg>

@@ -21,6 +21,7 @@ export const generateMap = async (gameId: string) => {
     for (let i = 0; i < levels; i++) {
         rooms.push([]);
     }
+    const end = await createRoom({ gameId, subroomIds: [], persona: "The Final Boss", depth: levels, end: 1 });
     for (let i = levels - 1; i >= 0; i--) {
         const numRooms = Math.floor(Math.random() * 4) + 2;
         for (let j = 0; j < numRooms; j++) {
@@ -35,6 +36,8 @@ export const generateMap = async (gameId: string) => {
                         subrooms.push(rooms[i + 1][Math.floor(((j + 1) * rooms[i + 1].length) / numRooms)]);
                 }
                 subrooms.push(...rooms[i + 1].filter(roomId => !subrooms.includes(roomId) && Math.random() < 0.2)); // add some random extra connections
+            } else {
+                subrooms.push(end.id);
             }
             const personas = [
                 "The Overwhelmed Procrastinator",

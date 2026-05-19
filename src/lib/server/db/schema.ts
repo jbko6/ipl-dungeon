@@ -39,6 +39,7 @@ export const rooms = sqliteTable('rooms', {
     persona: text('persona').notNull(),
     discovered: integer('discovered').notNull().default(0),
     depth: integer('depth').notNull().default(0),
+    end: integer('end').notNull().default(0),
     ...timestamps
 });
 

@@ -89,9 +89,13 @@
     
 </script>
 
+{#if room.end === 0}
 <div class="student-overlay"></div>
+{/if}
 {#if !loading}
-    {#if completed}
+    {#if room.end === 1}
+        <img src='/air-purifier.jpg' alt="Air Purifier" class="avatar" in:fly|global={{ y: 500, duration: 800 }} />
+    {:else if completed}
         <h1 class="path-title">Select your path</h1>
         <div class="doors">
             {#each room.subroomIds as subroomId (subroomId)}
