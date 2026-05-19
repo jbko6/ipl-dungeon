@@ -28,11 +28,11 @@
         return null;
     };
 
-    const calculateX = (index: number, total: number) => `${((0.33 + index) / total) * 100}%`;
-    const calculateArrowX = (index: number, total: number) => `${((0.33 + index) / total) * 100}%`;
+    const calculateX = (index: number, total: number) => `${((0.5 + index) / total) * 100}%`;
+    const calculateArrowX = (index: number, total: number) => `${((0.5 + index) / total) * 100}%`;
     const calculateY = (level: number) => level * 120;
 
-    const calculateTextX = (index: number, total: number) => `${((0.33 + index) / total) * 100 - 0.5}%`;
+    const calculateTextX = (index: number, total: number) => `${((0.5 + index) / total) * 100 - 0.5}%`;
 
 
 </script>
@@ -56,7 +56,7 @@
                 fill="white"
                 stroke="black" 
             />
-            <text y={calculateY(level) + 30} x={calculateTextX(Number(index), rooms.length)} font-size="25">{room.playerIds.length}</text>
+            <text y={calculateY(level) + 32} x={calculateTextX(Number(index), rooms.length)} font-size="25">{room.playerIds.length}</text>
 
             <g transform='translate(0, 0)'>
                 {#each room.subroomIds as subroomId (subroomId)}
