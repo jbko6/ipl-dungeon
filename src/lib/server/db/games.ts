@@ -15,6 +15,8 @@ export const startGame = async (gameId: string, endTime: Date) => await getDb().
 
 export const cancelGame = async (gameId: string) => await getDb().update(games).set({ active: 0 }).where(eq(games.id, gameId));
 
+export const winGame = async (gameId: string, winner: string) => await getDb().update(games).set({ active: 0, winner }).where(eq(games.id, gameId));
+
 export const generateMap = async (gameId: string) => {
     const levels = Math.floor(Math.random() * 3) + 3;
     const rooms: string[][] = [];

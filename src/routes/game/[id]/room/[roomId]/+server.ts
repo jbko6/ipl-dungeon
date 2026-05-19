@@ -1,4 +1,5 @@
 import type { RouteParams } from "$app/types";
+import { winGame } from "$lib/server/db/games.js";
 import { getOrStartInteraction } from "$lib/server/db/interactions.js";
 import { getPlayer } from "$lib/server/db/players";
 import { getRoom } from "$lib/server/db/rooms.js";
@@ -26,18 +27,25 @@ export async function GET({ cookies, params }) {
         return error(400, "Player is not in the correct room");
     }
     const room = await getRoom(player.roomId);
-    const existingConversation = await getOrStartInteraction({
-        gameId: params.id,
-        playerId: player.id,
-        id: conversationId,
-        roomId: params.roomId,
-        messages: []
-    }, room.persona);
-    console.log("Existing conversation for player", player.id, "in room", player.roomId, ":", existingConversation);
-    return json({ 
-        output: existingConversation.messages[existingConversation.messages.length - 1]?.content || "", 
-        interactionCompleted: existingConversation.completed
-    });
+    if (room.end === 1) {
+        if (room.end === 1) {
+            await winGame(params.id, player.name);
+        }
+        return json({ output: "Congratulations! You've completed the dungeon!", interactionCompleted: true });
+    } else {
+        const existingConversation = await getOrStartInteraction({
+            gameId: params.id,
+            playerId: player.id,
+            id: conversationId,
+            roomId: params.roomId,
+            messages: []
+        }, room.persona);
+        console.log("Existing conversation for player", player.id, "in room", player.roomId, ":", existingConversation);
+        return json({ 
+            output: existingConversation.messages[existingConversation.messages.length - 1]?.content || "", 
+            interactionCompleted: existingConversation.completed
+        });
+    }
 }
 
 export async function POST({ cookies, params, request }) {

@@ -28,6 +28,7 @@ export const games = sqliteTable('games', {
     started: integer('started').notNull().default(0),
     endTime: integer('end_time', { mode: 'timestamp' }),
     surfaceRooms: text('surface_rooms', { mode: 'json' }).notNull().$type<string[]>(),
+    winner: text('winner'),
     ...timestamps
 });
 
