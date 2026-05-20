@@ -10,7 +10,7 @@ import { parse } from "yaml";
 
 const apiKey = AZURE_OPENAI_API_KEY;
 const endpoint = AZURE_OPENAI_ENDPOINT;
-const apiVersion = "2024-10-21";
+const apiVersion = "2024-12-01-preview";
 
 if (!apiKey || !endpoint) {
     throw new Error("Missing Azure OpenAI config. Set AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT in .env.");

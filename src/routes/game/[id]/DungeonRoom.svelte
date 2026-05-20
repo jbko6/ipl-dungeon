@@ -38,9 +38,9 @@
 
     const sendMessage = async (event: SubmitEvent) => {
         event.preventDefault();
-        (event.target as HTMLFormElement).reset();
         pending = true;
         const formData = new FormData(event.target as HTMLFormElement);
+        (event.target as HTMLFormElement).reset();
         const response = await fetch(`/game/${room.gameId}/room/${room.id}`, {
             method: 'POST',
             body: formData
